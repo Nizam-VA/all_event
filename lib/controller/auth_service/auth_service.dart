@@ -18,6 +18,7 @@ class AuthService {
 
       return right(userCredential);
     } catch (e) {
+      print(e);
       return left(e.toString());
     }
   }
