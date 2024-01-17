@@ -41,6 +41,16 @@ const bigBoldWhite =
     TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white);
 
 //big and bold
+const greatGreen =
+    TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.green);
+const greatBlack =
+    TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black);
+const greatGrey =
+    TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.grey);
+const greatWhite =
+    TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white);
+
+//heavy
 const heavyGreen =
     TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.green);
 const heavyBlack =
