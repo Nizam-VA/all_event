@@ -13,7 +13,10 @@ class ScreenProfile extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -29,6 +32,10 @@ class ScreenProfile extends StatelessWidget {
                     child: CircleAvatar(
                       radius: width * .175,
                       backgroundColor: Colors.blue[50],
+                      child: Image.asset(
+                        'assets/images/person logo.png',
+                        height: height * .08,
+                      ),
                     ),
                   ),
                   kHight10,
