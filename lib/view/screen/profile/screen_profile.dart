@@ -1,19 +1,28 @@
+import 'package:all_events/controller/blocs/profile/profile_bloc.dart';
 import 'package:all_events/utils/common.dart';
 import 'package:all_events/utils/constants.dart';
 import 'package:all_events/utils/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScreenProfile extends StatelessWidget {
   ScreenProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProfileBloc>().add(GetProfileEvent());
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(Constants.imageUrl), fit: BoxFit.cover),
+          ),
+        ),
         title: const Text('Profile'),
         centerTitle: true,
       ),
@@ -22,26 +31,41 @@ class ScreenProfile extends StatelessWidget {
           children: [
             SizedBox(
               width: width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  kHight20,
-                  CircleAvatar(
-                    radius: width * .176,
-                    backgroundColor: Colors.blue[400],
-                    child: CircleAvatar(
-                      radius: width * .175,
-                      backgroundColor: Colors.blue[50],
-                      child: Image.asset(
-                        'assets/images/person logo.png',
-                        height: height * .08,
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      kHight20,
+                      CircleAvatar(
+                        radius: width * .176,
+                        backgroundColor: Colors.blue[400],
+                        child: CircleAvatar(
+                          radius: width * 0.176,
+                          backgroundColor: Colors.blue[400],
+                          child: CircleAvatar(
+                            radius: width * 0.176,
+                            backgroundColor: Colors.blue[400],
+                            child: CircleAvatar(
+                                radius: width * 0.175,
+                                backgroundColor: Colors.blue[50],
+                                backgroundImage: state.imageUrl != null &&
+                                        state.imageUrl is String &&
+                                        (state.imageUrl as String).isNotEmpty
+                                    ? NetworkImage(state.imageUrl as String)
+                                        as ImageProvider<Object>?
+                                    : AssetImage(
+                                        'assets/images/person_logo.png', // Replace with the path to your asset image
+                                      ) as ImageProvider<Object>?),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  kHight10,
-                  const Text('Guest User', style: bigBoldBlack),
-                  kHight30,
-                ],
+                      kHight10,
+                      Text(state.name, style: bigBoldBlack),
+                      kHight30,
+                    ],
+                  );
+                },
               ),
             ),
             Padding(

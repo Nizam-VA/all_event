@@ -10,6 +10,16 @@ const regularGrey =
 const regularWhite =
     TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white);
 
+//semi regular
+const semiRegularGreen =
+    TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: Colors.green);
+const semiRegularBlack =
+    TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: Colors.black);
+const semiRegularGrey =
+    TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: Colors.grey);
+const semiRegularWhite =
+    TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: Colors.white);
+
 //semi bold
 const semiBoldGreen =
     TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: Colors.green);

@@ -1,6 +1,8 @@
 import 'package:all_events/controller/blocs/authentication/authentication_bloc.dart';
 import 'package:all_events/controller/blocs/category/category_bloc.dart';
 import 'package:all_events/controller/blocs/events/events_bloc.dart';
+import 'package:all_events/controller/blocs/grid_view/grid_view_bloc.dart';
+import 'package:all_events/controller/blocs/profile/profile_bloc.dart';
 import 'package:all_events/controller/blocs/root/root_bloc.dart';
 import 'package:all_events/firebase_options.dart';
 import 'package:all_events/utils/constants.dart';
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => RootBloc()),
         BlocProvider(create: (context) => EventsBloc()),
         BlocProvider(create: (context) => CategoryBloc()),
+        BlocProvider(create: (context) => ProfileBloc()),
+        BlocProvider(create: (context) => GridViewBloc()),
       ],
       child: MaterialApp(
         title: 'All Events',

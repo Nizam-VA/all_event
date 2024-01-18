@@ -1,9 +1,11 @@
-import 'package:all_events/controller/api_services/categories/api_calls.dart';
 import 'package:all_events/controller/blocs/category/category_bloc.dart';
 import 'package:all_events/controller/blocs/events/events_bloc.dart';
 import 'package:all_events/utils/common.dart';
 import 'package:all_events/utils/constants.dart';
+import 'package:all_events/view/screen/all_events/screen_all_events.dart';
 import 'package:all_events/view/screen/categories/screen_categories.dart';
+import 'package:all_events/view/screen/event_details/screen_event_details.dart';
+import 'package:all_events/view/screen/search_filter/screen_search_filter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,8 @@ class ScreenHome extends StatelessWidget {
         behavior: const ScrollBehavior().copyWith(overscroll: false),
         child: CustomScrollView(
           slivers: [
-            _buildSliverAppBar(),
-            _buildPopularEventsSection(),
+            _buildSliverAppBar(context),
+            _buildPopularEventsSection(context),
             _buildExploreCategoriesSection(),
             _buildRecentlyViewedEventsSection(),
           ],
@@ -31,16 +33,16 @@ class ScreenHome extends StatelessWidget {
     );
   }
 
-  SliverAppBar _buildSliverAppBar() {
+  SliverAppBar _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
       collapsedHeight: Constants.height * 0.13,
       toolbarHeight: Constants.height * .13,
       pinned: true,
-      flexibleSpace: _buildAppBarContent(),
+      flexibleSpace: _buildAppBarContent(context),
     );
   }
 
-  Widget _buildAppBarContent() {
+  Widget _buildAppBarContent(BuildContext context) {
     return FlexibleSpaceBar(
       background: Container(
         decoration: BoxDecoration(
@@ -92,7 +94,11 @@ class ScreenHome extends StatelessWidget {
               const SizedBox(height: 10),
               InkWell(
                 onTap: () async {
-                  await CategoriesApiServices().getAllCategories();
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => ScreenSearchFilter(),
+                    ),
+                  );
                 },
                 child: Container(
                   height: Constants.height * 0.05,
@@ -125,7 +131,7 @@ class ScreenHome extends StatelessWidget {
     );
   }
 
-  Widget _buildPopularEventsSection() {
+  Widget _buildPopularEventsSection(BuildContext context) {
     return SliverList(
       delegate: SliverChildListDelegate(
         [
@@ -139,7 +145,13 @@ class ScreenHome extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ScreenAllEvents(),
+                      ),
+                    );
+                  },
                   child: const Text('View All'),
                 )
               ],
@@ -365,69 +377,79 @@ class ScreenHome extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      child: SizedBox(
-                        height: Constants.height * 0.12,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: Constants.height * 0.12,
-                              width: Constants.width * 0.38,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(index < 5
-                                        ? state.events[index].thumbUrlLarge!
-                                        : '')),
-                                borderRadius: BorderRadius.circular(15),
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ScreenEventDetails(event: state.events[index]),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 5),
+                        child: SizedBox(
+                          height: Constants.height * 0.12,
+                          width: double.infinity,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: Constants.height * 0.12,
+                                width: Constants.width * 0.38,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(index < 5
+                                          ? state.events[index].thumbUrlLarge!
+                                          : '')),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
                               ),
-                            ),
-                            SizedBox(width: Constants.width * 0.03),
-                            SizedBox(
-                              width: Constants.width * 0.5,
-                              height: Constants.height * 0.12,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    index < 5
-                                        ? state.events[index].eventname!
-                                        : '',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                              SizedBox(width: Constants.width * 0.03),
+                              SizedBox(
+                                width: Constants.width * 0.5,
+                                height: Constants.height * 0.12,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      index < 5
+                                          ? state.events[index].eventname!
+                                          : '',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: Constants.height * 0.01),
-                                  Text(
-                                    index < 5
-                                        ? state.events[index].location!
-                                        : '',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                    SizedBox(height: Constants.height * 0.01),
+                                    Text(
+                                      index < 5
+                                          ? state.events[index].location!
+                                          : '',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: Constants.height * 0.01),
-                                  Text(
-                                    index < 5
-                                        ? state.events[index].endTimeDisplay!
-                                        : '',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                                    SizedBox(height: Constants.height * 0.01),
+                                    Text(
+                                      index < 5
+                                          ? state.events[index].endTimeDisplay!
+                                          : '',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );

@@ -12,6 +12,7 @@ setSize(BuildContext context) {
   Constants.width = MediaQuery.of(context).size.width;
 }
 
+const kHight5 = SizedBox(height: 5);
 const kHight10 = SizedBox(height: 10);
 const kHight20 = SizedBox(height: 20);
 const kHight30 = SizedBox(height: 30);
