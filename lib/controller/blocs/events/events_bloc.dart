@@ -8,7 +8,18 @@ part 'events_state.dart';
 class EventsBloc extends Bloc<EventsEvent, EventsState> {
   EventsBloc() : super(EventsInitial()) {
     on<GetAllEventsEvent>((event, emit) async {
-      final response = await EventApiServices().getAllEvents();
+      emit(EventLoadingState());
+      final response = await EventApiServices().getAllEvents('all');
+      response.fold((error) {
+        emit(EventsState(events: []));
+      }, (events) {
+        emit(EventsState(events: events));
+      });
+    });
+    on<GetEventsByCategoryEvent>((event, emit) async {
+      print(event.category);
+      emit(EventLoadingState());
+      final response = await EventApiServices().getAllEvents(event.category);
       response.fold((error) {
         emit(EventsState(events: []));
       }, (events) {

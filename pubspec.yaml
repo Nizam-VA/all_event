@@ -47,6 +47,7 @@ dependencies:
   build_runner: ^2.4.8
   carousel_slider: ^4.2.1
   webview_flutter: ^4.4.4
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -3,13 +3,14 @@ import 'package:all_events/controller/blocs/events/events_bloc.dart';
 import 'package:all_events/utils/common.dart';
 import 'package:all_events/utils/constants.dart';
 import 'package:all_events/view/screen/all_events/screen_all_events.dart';
-import 'package:all_events/view/screen/categories/screen_categories.dart';
+import 'package:all_events/view/screen/event_categories/screen_event_categories.dart';
 import 'package:all_events/view/screen/event_details/screen_event_details.dart';
 import 'package:all_events/view/screen/search_filter/screen_search_filter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -159,100 +160,177 @@ class ScreenHome extends StatelessWidget {
           ),
           BlocBuilder<EventsBloc, EventsState>(
             builder: (context, state) {
-              return CarouselSlider.builder(
-                itemCount: state.events.length,
-                itemBuilder: (context, index, realIndex) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Material(
-                      elevation: 5,
-                      borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: Constants.height * 0.19,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
-                                ),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    state.events[index].bannerUrl!,
+              return state is EventLoadingState
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 3, horizontal: 15),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[200]!,
+                        child: Container(
+                          height: Constants.height * 0.23,
+                          width: Constants.width * .8,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: Constants.height * 0.23,
+                                width: Constants.width * .8,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              right: 25,
-                              bottom: 62,
-                              child: Material(
-                                color: Colors.white,
-                                elevation: 2,
-                                borderRadius: BorderRadius.circular(50),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(50),
+                              Positioned(
+                                right: 25,
+                                bottom: 62,
+                                child: Material(
+                                  color: Colors.white,
+                                  elevation: 2,
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    height: 40,
+                                    width: 40,
+                                    child: const Icon(Icons.star_outline),
                                   ),
-                                  height: 40,
-                                  width: 40,
-                                  child: const Icon(Icons.star_outline),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              bottom: 20,
-                              left: 10,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    state.events[index].eventname!,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.blue,
+                              Positioned(
+                                bottom: 20,
+                                left: 10,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 150, // Adjust the width as needed
+                                      height: 15,
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                  Text(
-                                    state.events[index].endTimeDisplay!,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                    SizedBox(height: 5),
+                                    Container(
+                                      width: 200, // Adjust the width as needed
+                                      height: 20,
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                  Text(
-                                    state.events[index].location!,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey,
+                                    SizedBox(height: 5),
+                                    Container(
+                                      width: 100, // Adjust the width as needed
+                                      height: 15,
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                options: CarouselOptions(
-                  aspectRatio: 14 / 9,
-                  viewportFraction: 0.9,
-                  enlargeFactor: 0.15,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  autoPlayCurve: Curves.linear,
-                ),
-              );
+                    )
+                  : CarouselSlider.builder(
+                      itemCount: state.events.length,
+                      itemBuilder: (context, index, realIndex) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 3),
+                          child: Material(
+                            elevation: 5,
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white70,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: Constants.height * 0.19,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15),
+                                      ),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          state.events[index].bannerUrl!,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 25,
+                                    bottom: 62,
+                                    child: Material(
+                                      color: Colors.white,
+                                      elevation: 2,
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                        height: 40,
+                                        width: 40,
+                                        child: const Icon(Icons.star_outline),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 20,
+                                    left: 10,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          state.events[index].eventname!,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        Text(
+                                          state.events[index].endTimeDisplay!,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          state.events[index].location!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      options: CarouselOptions(
+                        aspectRatio: 14 / 9,
+                        viewportFraction: 0.9,
+                        enlargeFactor: 0.15,
+                        enlargeCenterPage: true,
+                        autoPlay: true,
+                        autoPlayCurve: Curves.linear,
+                      ),
+                    );
             },
           ),
         ],
@@ -299,15 +377,13 @@ class ScreenHome extends StatelessWidget {
                               splashFactory: NoSplash.splashFactory,
                               highlightColor: Colors.transparent,
                               onTap: () {
-                                index == items.length - 1
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ScreenCategories(),
-                                        ),
-                                      )
-                                    : null;
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ScreenEventCategories(
+                                        category:
+                                            state.categories[index].category!),
+                                  ),
+                                );
                               },
                               child: Container(
                                 height: Constants.height * 0.1,

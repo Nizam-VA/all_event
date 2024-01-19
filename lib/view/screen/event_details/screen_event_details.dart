@@ -1,6 +1,7 @@
 import 'package:all_events/model/business/item.dart';
 import 'package:all_events/utils/constants.dart';
 import 'package:all_events/utils/text_styles.dart';
+import 'package:all_events/view/screen/web_view/screen_web_view.dart';
 import 'package:flutter/material.dart';
 
 class ScreenEventDetails extends StatelessWidget {
@@ -94,7 +95,14 @@ class ScreenEventDetails extends StatelessWidget {
                   ),
                   kHight10,
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ScreenWebView(websiteURL: event.eventUrl!),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Visit event on web',
                       style:

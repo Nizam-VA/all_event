@@ -8,3 +8,7 @@ class EventsState {
 final class EventsInitial extends EventsState {
   EventsInitial() : super(events: []);
 }
+
+class EventLoadingState extends EventsState {
+  EventLoadingState() : super(events: []);
+}
