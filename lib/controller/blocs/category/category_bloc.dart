@@ -8,6 +8,7 @@ part 'category_state.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc() : super(CategoryInitial()) {
     on<GetAllCategoriesEvent>((event, emit) async {
+      emit(CategoryLoadingState(categories: []));
       final response = await CategoriesApiServices().getAllCategories();
       response.fold((error) {
         emit(CategoryState(categories: []));

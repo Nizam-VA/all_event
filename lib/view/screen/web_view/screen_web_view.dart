@@ -1,3 +1,4 @@
+import 'package:all_events/view/screen/web_view/widget/event_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -16,6 +17,7 @@ class _ScreenWebViewState extends State<ScreenWebView> {
 
   @override
   void initState() {
+    controller = WebViewController()..loadRequest(Uri.parse(widget.websiteURL));
     super.initState();
   }
 
@@ -23,7 +25,7 @@ class _ScreenWebViewState extends State<ScreenWebView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(children: []),
+        body: EventWebView(controller: controller),
       ),
     );
   }

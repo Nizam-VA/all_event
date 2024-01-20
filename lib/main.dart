@@ -6,7 +6,7 @@ import 'package:all_events/controller/blocs/profile/profile_bloc.dart';
 import 'package:all_events/controller/blocs/root/root_bloc.dart';
 import 'package:all_events/firebase_options.dart';
 import 'package:all_events/utils/constants.dart';
-import 'package:all_events/view/screen/authentication/screen_authentication.dart';
+import 'package:all_events/view/screen/splash/screen_splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           useMaterial3: false,
         ),
-        home: ScreenAuthentication(),
+        home: ScreenSplash(),
       ),
     );
   }

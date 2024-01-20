@@ -179,8 +179,8 @@ class ScreenHome extends StatelessWidget {
                               Container(
                                 height: Constants.height * 0.23,
                                 width: Constants.width * .8,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15),
                                   ),
@@ -215,7 +215,7 @@ class ScreenHome extends StatelessWidget {
                                       height: 15,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Container(
                                       width: 200, // Adjust the width as needed
                                       height: 20,
@@ -243,80 +243,90 @@ class ScreenHome extends StatelessWidget {
                           child: Material(
                             elevation: 5,
                             borderRadius: BorderRadius.circular(15),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white70,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: Constants.height * 0.19,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                        topRight: Radius.circular(15),
-                                      ),
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                          state.events[index].bannerUrl!,
-                                        ),
-                                      ),
-                                    ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ScreenEventDetails(
+                                        event: state.events[index]),
                                   ),
-                                  Positioned(
-                                    right: 25,
-                                    bottom: 62,
-                                    child: Material(
-                                      color: Colors.white,
-                                      elevation: 2,
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: Constants.height * 0.19,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
                                         ),
-                                        height: 40,
-                                        width: 40,
-                                        child: const Icon(Icons.star_outline),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                            state.events[index].bannerUrl!,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: 20,
-                                    left: 10,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          state.events[index].eventname!,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.blue,
+                                    Positioned(
+                                      right: 25,
+                                      bottom: 62,
+                                      child: Material(
+                                        color: Colors.white,
+                                        elevation: 2,
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
                                           ),
+                                          height: 40,
+                                          width: 40,
+                                          child: const Icon(Icons.star_outline),
                                         ),
-                                        Text(
-                                          state.events[index].endTimeDisplay!,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        Text(
-                                          state.events[index].location!,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    Positioned(
+                                      bottom: 20,
+                                      left: 10,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            state.events[index].eventname!,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          Text(
+                                            state.events[index].endTimeDisplay!,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          Text(
+                                            state.events[index].location!,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -462,72 +472,142 @@ class ScreenHome extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 5),
-                        child: SizedBox(
-                          height: Constants.height * 0.12,
-                          width: double.infinity,
-                          child: Row(
-                            children: [
-                              Container(
-                                height: Constants.height * 0.12,
-                                width: Constants.width * 0.38,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(index < 5
-                                          ? state.events[index].thumbUrlLarge!
-                                          : '')),
-                                  borderRadius: BorderRadius.circular(15),
+                      child: state is EventLoadingState
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
+                                child: SizedBox(
+                                  height: Constants.height * 0.12,
+                                  width: double.infinity,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: Constants.height * 0.12,
+                                        width: Constants.width * 0.38,
+                                        decoration: BoxDecoration(
+                                          color: Colors
+                                              .white, // Set a background color for the shimmer effect
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      SizedBox(width: Constants.width * 0.03),
+                                      SizedBox(
+                                        width: Constants.width * 0.5,
+                                        height: Constants.height * 0.12,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width:
+                                                  200, // Adjust the width as needed
+                                              height: 20,
+                                              color: Colors
+                                                  .white, // Set a background color for the shimmer effect
+                                            ),
+                                            SizedBox(
+                                                height:
+                                                    Constants.height * 0.01),
+                                            Container(
+                                              width:
+                                                  150, // Adjust the width as needed
+                                              height: 15,
+                                              color: Colors
+                                                  .white, // Set a background color for the shimmer effect
+                                            ),
+                                            SizedBox(
+                                                height:
+                                                    Constants.height * 0.01),
+                                            Container(
+                                              width:
+                                                  100, // Adjust the width as needed
+                                              height: 15,
+                                              color: Colors
+                                                  .white, // Set a background color for the shimmer effect
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                              SizedBox(width: Constants.width * 0.03),
-                              SizedBox(
-                                width: Constants.width * 0.5,
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              child: SizedBox(
                                 height: Constants.height * 0.12,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                width: double.infinity,
+                                child: Row(
                                   children: [
-                                    Text(
-                                      index < 5
-                                          ? state.events[index].eventname!
-                                          : '',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                    Container(
+                                      height: Constants.height * 0.12,
+                                      width: Constants.width * 0.38,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(index < 5
+                                                ? state.events[index]
+                                                    .thumbUrlLarge!
+                                                : '')),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                     ),
-                                    SizedBox(height: Constants.height * 0.01),
-                                    Text(
-                                      index < 5
-                                          ? state.events[index].location!
-                                          : '',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    SizedBox(height: Constants.height * 0.01),
-                                    Text(
-                                      index < 5
-                                          ? state.events[index].endTimeDisplay!
-                                          : '',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                    SizedBox(width: Constants.width * 0.03),
+                                    SizedBox(
+                                      width: Constants.width * 0.5,
+                                      height: Constants.height * 0.12,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            index < 5
+                                                ? state.events[index].eventname!
+                                                : '',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: Constants.height * 0.01),
+                                          Text(
+                                            index < 5
+                                                ? state.events[index].location!
+                                                : '',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: Constants.height * 0.01),
+                                          Text(
+                                            index < 5
+                                                ? state.events[index]
+                                                    .endTimeDisplay!
+                                                : '',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     )
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                              ),
+                            ),
                     );
                   },
                   itemCount: 5);

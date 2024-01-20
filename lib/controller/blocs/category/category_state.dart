@@ -9,3 +9,7 @@ class CategoryState {
 final class CategoryInitial extends CategoryState {
   CategoryInitial() : super(categories: []);
 }
+
+class CategoryLoadingState extends CategoryState {
+  CategoryLoadingState({required super.categories});
+}

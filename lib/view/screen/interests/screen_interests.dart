@@ -5,9 +5,13 @@ class ScreenInterests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.lightGreen[50],
       body: Center(
-        child: Text("Interests screen"),
+        child: Image.asset(
+          'assets/images/empty.png',
+          height: 100,
+        ),
       ),
     );
   }
