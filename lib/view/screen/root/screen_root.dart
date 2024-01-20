@@ -20,7 +20,10 @@ class ScreenRoot extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<RootBloc, RootState>(
         builder: (context, state) {
-          return screens[state.index];
+          return IndexedStack(
+            index: state.index,
+            children: screens,
+          );
         },
       ),
       bottomNavigationBar: const BottomNavigationWidget(),
