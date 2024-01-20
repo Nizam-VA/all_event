@@ -9,3 +9,7 @@ class ProfileState {
 final class ProfileInitial extends ProfileState {
   ProfileInitial() : super(name: '', imageUrl: '');
 }
+
+class ProfileLoadingState extends ProfileState {
+  ProfileLoadingState({required super.name, required super.imageUrl});
+}

@@ -2,6 +2,7 @@ import 'package:all_events/controller/blocs/profile/profile_bloc.dart';
 import 'package:all_events/utils/common.dart';
 import 'package:all_events/utils/constants.dart';
 import 'package:all_events/utils/text_styles.dart';
+import 'package:all_events/view/screen/profile/widgets/logout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +26,9 @@ class ScreenProfile extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialogBox(context);
+              },
               icon: const Icon(Icons.power_settings_new_outlined))
         ],
         title: const Text('Profile'),
@@ -56,19 +59,20 @@ class ScreenProfile extends StatelessWidget {
                               child: CircleAvatar(
                                   radius: width * 0.175,
                                   backgroundColor: Colors.blue[50],
-                                  backgroundImage: state.imageUrl != null &&
-                                          state.imageUrl is String &&
-                                          (state.imageUrl as String).isNotEmpty
-                                      ? NetworkImage(state.imageUrl as String)
-                                          as ImageProvider<Object>?
-                                      : AssetImage(
-                                          'assets/images/person_logo.png', // Replace with the path to your asset image
-                                        ) as ImageProvider<Object>?),
+                                  backgroundImage: state is ProfileLoadingState
+                                      ? const AssetImage(
+                                          'assets/images/person_logo.png')
+                                      : (state.imageUrl).isNotEmpty
+                                          ? NetworkImage(state.imageUrl)
+                                          : const AssetImage(
+                                              'assets/images/person_logo.png', // Replace with the path to your asset image
+                                            ) as ImageProvider<Object>?),
                             ),
                           ),
                         ),
                         kHight10,
-                        Text(state.name, style: bigBoldBlack),
+                        Text(state is ProfileLoadingState ? 'Name' : state.name,
+                            style: bigBoldBlack),
                         kHight30,
                       ],
                     );

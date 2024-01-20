@@ -7,6 +7,7 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
     on<GetProfileEvent>((event, emit) async {
+      emit(ProfileLoadingState(name: 'name', imageUrl: 'imageUrl'));
       final response = await AuthService().signInWithGoogle();
       response.fold((error) {
         emit(ProfileState(name: '', imageUrl: ''));
